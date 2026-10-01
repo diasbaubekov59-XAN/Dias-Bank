@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Нурбанк — универсальный банк Казахстана</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#0b1f3a;--mut:#5b6b82;--line:#e2e6ec;--pri:#0b2a5b;--acc:#c9a24b;--pri-ink:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0a1220;--card:#111b2e;--ink:#eef2f8;--mut:#9aa9bf;--line:#223250;--pri:#c9a24b;--acc:#c9a24b;--pri-ink:#0a1220}}
+:root[data-theme=dark]{--bg:#0a1220;--card:#111b2e;--ink:#eef2f8;--mut:#9aa9bf;--line:#223250;--pri:#c9a24b;--acc:#c9a24b;--pri-ink:#0a1220}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--ink);line-height:1.6}
+h1,h2,h3,.brand{font-family:Georgia,serif;letter-spacing:-.01em}
+p,a,button,input,label,li,.sans{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;gap:24px;height:64px}
+.brand{font-size:22px;font-weight:700;color:var(--pri);display:flex;align-items:center;gap:8px}
+.brand i{width:28px;height:28px;border-radius:6px;background:var(--pri);color:var(--pri-ink);display:grid;place-items:center;font-style:normal;font-size:16px}
+nav{display:flex;gap:22px;margin-left:auto;font-size:14px;color:var(--mut)}
+nav a:hover{color:var(--ink)}
+.btn{display:inline-block;padding:11px 20px;border-radius:8px;font-size:14px;font-weight:600;border:1px solid var(--pri);background:var(--pri);color:var(--pri-ink);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.ic{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;width:38px;height:38px;cursor:pointer}
+.burger{display:none}
+.hero{background:linear-gradient(135deg,#0b2a5b,#12396f);color:#fff;padding:72px 0 88px}
+.hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+.tag{font-family:system-ui;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+.hero h1{font-size:48px;line-height:1.1;margin:14px 0 18px}
+.hero p{color:#c7d3e6;max-width:520px;margin-bottom:28px}
+.hero .btn{background:var(--acc);border-color:var(--acc);color:#0b1f3a}
+.hero .btn.ghost{background:transparent;color:#fff;border-color:#ffffff55;margin-left:8px}
+.stats{background:rgba(255,255,255,.08);border:1px solid #ffffff22;border-radius:14px;padding:26px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.stats b{display:block;font-family:Georgia;font-size:30px;color:var(--acc)}
+.stats span{font-family:system-ui;font-size:13px;color:#c7d3e6}
+section{padding:72px 0}
+.head{margin-bottom:32px}
+.head h2{font-size:32px;margin-top:6px}
+.grid{display:grid;gap:18px}
+.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:1fr 1fr}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
+.quick{margin-top:-44px;position:relative}
+.quick .card{display:flex;flex-direction:column;gap:6px;transition:.2s}
+.quick .card:hover{transform:translateY(-3px);border-color:var(--acc)}
+.quick strong{font-family:Georgia;font-size:17px}
+.quick small,.card p{color:var(--mut);font-size:14px}
+.ico{font-size:22px;color:var(--acc)}
+.tabs{display:flex;gap:8px;margin-bottom:18px}
+.tab{padding:9px 18px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:14px}
+.tab.on{background:var(--pri);color:var(--pri-ink);border-color:var(--pri)}
+.calc{display:grid;grid-template-columns:1.1fr .9fr;gap:0;padding:0;overflow:hidden}
+.calc .in{padding:28px}.calc .out{padding:28px;background:var(--pri);color:var(--pri-ink)}
+.f{margin-bottom:22px}
+.f label{display:flex;justify-content:space-between;font-size:14px;color:var(--mut);margin-bottom:8px}
+.f label b{color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.out small{font-family:system-ui;opacity:.75;font-size:13px}
+.out .big{font-family:Georgia;font-size:38px;margin:4px 0 18px}
+.out .row{display:flex;justify-content:space-between;font-family:system-ui;font-size:14px;padding:10px 0;border-top:1px solid #ffffff2a}
+.out .btn{margin-top:18px;width:100%;text-align:center;background:var(--acc);border-color:var(--acc);color:#0b1f3a}
+.rate{font-family:Georgia;font-size:34px;color:var(--pri)}
+.card ul{list-style:none;padding:0;margin:12px 0 18px;font-size:14px;color:var(--mut)}
+.card li{padding:4px 0}.card li:before{content:"✓ ";color:var(--acc)}
+.alt{background:var(--card);border-block:1px solid var(--line)}
+.step{font-family:Georgia;font-size:36px;color:var(--acc)}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-bottom:10px}
+.faq summary{cursor:pointer;font-weight:600;font-size:15px;font-family:system-ui}
+.faq details p{margin-top:10px;color:var(--mut);font-size:14px}
+.warn{background:#fff7e0;color:#5a4300;border-left:4px solid var(--acc);padding:16px 20px;border-radius:8px;font-size:14px}
+:root[data-theme=dark] .warn{background:#2a2410;color:#e7d9a8}
+footer{background:#071a3a;color:#aebbd0;padding:56px 0 28px;font-size:14px}
+footer h4{color:#fff;margin-bottom:12px;font-family:Georgia}
+footer .grid{grid-template-columns:1.4fr 1fr 1fr 1.2fr}
+footer a{display:block;padding:3px 0}footer a:hover{color:#fff}
+.legal{border-top:1px solid #ffffff22;margin-top:32px;padding-top:20px;font-size:12px}
+@media(max-width:860px){
+nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--card);flex-direction:column;padding:16px 20px;border-bottom:1px solid var(--line)}
+nav.open{display:flex}.burger{display:block;margin-left:auto}header .top>.btn{display:none}
+.hero .wrap,.calc,.g4,.g3,.g2,footer .grid{grid-template-columns:1fr}
+.hero h1{font-size:34px}.hero{padding:48px 0 72px}section{padding:48px 0}
+.quick{grid-template-columns:1fr 1fr}.hero .btn.ghost{margin:10px 0 0}}
+/* ===== ANIMATION & 3D LAYER ===== */
+:root{--sh:#041433}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--sh:#8a6b22}}
+:root[data-theme=dark]{--sh:#8a6b22}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+/* 3D buttons */
+.btn,.tab,.ic{position:relative;overflow:hidden;user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .22s cubic-bezier(.2,.9,.3,1.4),box-shadow .22s,background .2s}
+.btn{margin-bottom:6px;--sh:#041433;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 5px 0 var(--sh),0 12px 18px -6px rgba(5,20,51,.4)}
+.btn:hover{transform:translateY(-4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 9px 0 var(--sh),0 22px 28px -8px rgba(5,20,51,.5)}
+.btn:active{transform:translateY(4px);transition-duration:.07s;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 0 var(--sh),0 3px 6px -3px rgba(5,20,51,.5)}
+.btn.ghost{--sh:color-mix(in srgb,var(--ink) 24%,transparent)}
+.hero .btn,.out .btn{--sh:#8a6b22}
+.hero .btn.ghost{--sh:rgba(0,0,0,.45)}
+:root[data-theme=dark] .btn:not(.ghost):not(.hero .btn):not(.out .btn){--sh:#8a6b22}
+.btn::after{content:'';position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);transition:left .65s ease;pointer-events:none}
+.btn:hover::after{left:140%}
+.tab{--s:color-mix(in srgb,var(--ink) 20%,transparent);margin-bottom:4px;box-shadow:0 3px 0 var(--s)}
+.tab:hover{transform:translateY(-3px);box-shadow:0 6px 0 var(--s),0 12px 16px -8px rgba(5,20,51,.35)}
+.tab:active{transform:translateY(3px);box-shadow:0 0 0 var(--s)}
+.tab.on{box-shadow:0 3px 0 var(--sh)}.tab.on:hover{box-shadow:0 6px 0 var(--sh),0 12px 16px -8px rgba(5,20,51,.4)}
+.ic{box-shadow:0 3px 0 color-mix(in srgb,var(--ink) 20%,transparent)}
+.ic:hover{transform:translateY(-3px) rotate(-8deg);box-shadow:0 6px 0 color-mix(in srgb,var(--ink) 20%,transparent)}
+.ic:active{transform:translateY(2px);box-shadow:none}
+.rip{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:rip .7s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+/* 3D tilt cards */
+.tilt{position:relative;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px));transform-style:preserve-3d;transition:transform .2s ease-out,box-shadow .35s,border-color .3s;will-change:transform}
+.quick .card.tilt:hover,.tilt:hover{--ty:-8px;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty))}
+.card.tilt:hover{box-shadow:0 28px 44px -20px rgba(5,20,51,.45);border-color:var(--acc)}
+.tilt::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(201,162,75,.24),transparent 55%)}
+.tilt:hover::before{opacity:1}
+.tilt .ico,.tilt h3,.tilt strong,.tilt .rate{transition:transform .3s}
+.tilt:hover .ico,.tilt:hover h3,.tilt:hover strong,.tilt:hover .rate{transform:translateZ(34px)}
+.tilt:hover .ico{transform:translateZ(46px) scale(1.25) rotate(-6deg)}
+/* reveal, hero, nav, misc */
+.rv{opacity:0}
+.rv.in{animation:rise .85s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d,0ms)}
+@keyframes rise{from{opacity:0;translate:0 34px}to{opacity:1;translate:0 0}}
+@keyframes float{50%{translate:0 -10px}}
+.stats{animation:float 7s ease-in-out infinite}
+.hero{position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(520px circle at var(--gx,75%) var(--gy,30%),rgba(201,162,75,.2),transparent 60%)}
+.hero::after{content:'';position:absolute;width:420px;height:420px;right:-120px;bottom:-200px;border-radius:50%;border:1px solid #ffffff1c;box-shadow:0 0 0 60px #ffffff08,0 0 0 120px #ffffff05;animation:spin 30s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero .wrap{position:relative;z-index:1}
+.pbar{position:fixed;top:0;left:0;right:0;height:3px;background:var(--acc);transform:scaleX(0);transform-origin:left;z-index:30}
+header{transition:box-shadow .3s}header.sc{box-shadow:0 10px 26px -14px rgba(5,20,51,.45)}
+nav a{position:relative;padding:4px 0}
+nav a::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+nav a:hover::after{transform:scaleX(1)}
+.brand i{transition:transform .5s cubic-bezier(.2,.9,.3,1.4)}.brand:hover i{transform:rotateY(360deg)}
+footer a{transition:padding-left .25s,color .2s}footer a:hover{padding-left:8px;color:var(--acc)}
+.faq details{transition:border-color .25s,transform .25s,box-shadow .25s}
+.faq details:hover{transform:translateX(4px);border-color:var(--acc)}
+.faq details[open]{box-shadow:0 14px 26px -18px rgba(5,20,51,.5)}
+.faq details[open] p{animation:fade .4s ease}
+@keyframes fade{from{opacity:0;translate:0 -6px}}
+.out .big.pop{animation:pop .45s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes pop{0%{transform:scale(.92);opacity:.4}100%{transform:none;opacity:1}}
+.out .big{transform-origin:left}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap top">
+<a class="brand" href="#"><i>N</i>Нурбанк</a>
+<nav id="nav">
+<a href="#calc">Калькуляторы</a><a href="#products">Продукты</a><a href="#transfers">Переводы</a><a href="#business">Бизнесу</a><a href="#about">О банке</a><a href="#contacts">Контакты</a>
+</nav>
+<button class="ic" id="theme" title="Тема">◐</button>
+<a class="btn" href="https://online.nurbank24.kz/" target="_blank" rel="noopener">Войти</a>
+<button class="ic burger" id="burger" aria-label="Меню">☰</button>
+</div>
+</header>
+
+<div class="hero"><div class="wrap">
+<div>
+<span class="tag">Универсальный банк · с 1992 года</span>
+<h1>Надёжный банк для вашего капитала и бизнеса</h1>
+<p>Депозиты, кредиты, международные переводы и цифровой банкинг Nur24.kz — в одном месте, с поддержкой 24/7.</p>
+<a class="btn" href="#calc">Рассчитать выгоду</a><a class="btn ghost" href="#products">Все продукты</a>
+</div>
+<div class="stats">
+<div><b>564 млрд ₸</b><span>Активы</span></div>
+<div><b>486 млрд ₸</b><span>Депозиты</span></div>
+<div><b>16</b><span>филиалов</span></div>
+<div><b>30+ лет</b><span>на рынке</span></div>
+</div></div></div>
+
+<div class="wrap quick"><div class="grid g4">
+<a class="card" href="#calc"><span class="ico">◈</span><strong>Открыть депозит</strong><small>Ставки до 18,4%</small></a>
+<a class="card" href="#calc"><span class="ico">▣</span><strong>Получить кредит</strong><small>Решение онлайн</small></a>
+<a class="card" href="#transfers"><span class="ico">⇄</span><strong>Перевод за рубеж</strong><small>Более 190 стран</small></a>
+<a class="card" href="#contacts"><span class="ico">☏</span><strong>Связаться: 2552</strong><small>Бесплатно, 24/7</small></a>
+</div></div>
+
+<section id="calc"><div class="wrap">
+<div class="head"><span class="tag">Калькуляторы</span><h2>Рассчитайте условия за минуту</h2></div>
+<div class="tabs sans"><button class="tab on" data-t="dep">Депозит</button><button class="tab" data-t="loan">Кредит</button></div>
+<div class="card calc">
+<div class="in">
+<div class="f"><label><span id="l1">Сумма вклада</span><b id="v1"></b></label><input type="range" id="r1"></div>
+<div class="f"><label><span>Срок, мес.</span><b id="v2"></b></label><input type="range" id="r2"></div>
+<div class="f"><label><span>Ставка, % годовых</span><b id="v3"></b></label><input type="range" id="r3"></div>
+<p style="font-size:12px">Расчёт ориентировочный и не является офертой. Актуальные условия уточняйте в банке.</p>
+</div>
+<div class="out">
+<small id="o1">Доход за период</small>
+<div class="big" id="o1v"></div>
+<div class="row"><span id="o2">Итоговая сумма</span><b id="o2v"></b></div>
+<div class="row"><span id="o3">Эффективная ставка</span><b id="o3v"></b></div>
+<a class="btn" href="#contacts">Оставить заявку</a>
+</div></div>
+</div></section>
+
+<section id="products" class="alt"><div class="wrap">
+<div class="head"><span class="tag">Частным клиентам</span><h2>Продукты банка</h2></div>
+<div class="grid g3">
+<div class="card"><h3>Депозит «Нур Алтын Оптимальный»</h3><div class="rate">14,9%</div><ul><li>Пополнение и снятие в любой момент</li><li>Капитализация процентов</li><li>От 5 000 ₸, срок 1–12 мес.</li></ul><a class="btn ghost" href="#calc">Рассчитать</a></div>
+<div class="card"><h3>Депозит «Нур Алтын Сберегательный»</h3><div class="rate">18,4%</div><ul><li>Максимальная гарантия ставки</li><li>Без пополнения и снятия</li><li>От 5 000 ₸, срок 1–12 мес.</li></ul><a class="btn ghost" href="#calc">Рассчитать</a></div>
+<div class="card"><h3>Залоговый кредит</h3><div class="rate">от 23,5%</div><ul><li>Сумма до 70 000 000 ₸</li><li>Срок до 120 месяцев</li><li>Ипотека и автокредит</li></ul><a class="btn ghost" href="#calc">Рассчитать</a></div>
+</div>
+<p class="sans" style="font-size:12px;color:var(--mut);margin-top:14px">Ставки приведены по данным открытых источников; точные условия — на nurbank.kz.</p>
+</div></section>
+
+<section id="transfers"><div class="wrap">
+<div class="head"><span class="tag">Переводы</span><h2>Деньги — быстро и по всему миру</h2></div>
+<div class="grid g3">
+<div class="card"><h3>Золотая Корона</h3><p>Россия, страны СНГ, Европа. Валюты KZT, USD, EUR, RUB. Получение прямо в приложении Nur24.kz.</p></div>
+<div class="card"><h3>Ria Money Transfer</h3><p>Более 190 стран и 500 000+ пунктов обслуживания. Отправка из Nur24.kz.</p></div>
+<div class="card"><h3>NUR Express</h3><p>Переводы по Казахстану за секунды, без открытия счёта. До 10 000 USD в эквиваленте.</p></div>
+</div>
+<div class="grid g3" style="margin-top:18px">
+<div class="card"><h3>Western Union</h3><p>В отделениях банка, по документу, удостоверяющему личность.</p></div>
+<div class="card"><h3>SWIFT</h3><p>Банковские переводы в любую точку мира.</p></div>
+<div class="card"><h3>По номеру телефона</h3><p>В другие банки Казахстана по номеру телефона или карты в Nur24.kz.</p></div>
+</div></div></section>
+
+<section id="business" class="alt"><div class="wrap">
+<div class="head"><span class="tag">Бизнесу</span><h2>Решения для предпринимателей</h2></div>
+<div class="grid g2">
+<div class="card"><div class="step">01</div><h3>Расчётно-кассовое обслуживание</h3><p>Счета, платежи, интернет-банкинг Nur Business с круглосуточным доступом.</p></div>
+<div class="card"><div class="step">02</div><h3>Кредитование и господдержка</h3><p>Участие в государственных программах поддержки казахстанских предпринимателей.</p></div>
+</div></div></section>
+
+<section id="about"><div class="wrap">
+<div class="head"><span class="tag">О банке</span><h2>Нурбанк сегодня</h2></div>
+<div class="grid g2">
+<div class="card"><p style="font-size:15px;color:var(--ink)">АО «Нурбанк» работает на рынке Казахстана с 1992 года. Банк предлагает полный спектр услуг для частных и корпоративных клиентов, развивает цифровые каналы и имеет сеть из 16 филиалов и центров обслуживания по всей стране.</p><br><p>Лицензия АРРФР № 1.2.15/193 от 03.02.2020 · БИН 930940000164 · SWIFT NBRKKZKX</p></div>
+<div class="faq">
+<details><summary>Как стать клиентом?</summary><p>Обратитесь в любое отделение с документом, удостоверяющим личность, или установите приложение Nur24.kz.</p></details>
+<details><summary>Застрахованы ли вклады?</summary><p>Банк участвует в системе гарантирования депозитов. Условия — на сайте КФГД.</p></details>
+<details><summary>Что делать при утере карты?</summary><p>Позвоните по номеру 2552 или +7 (727) 250-67-27 для немедленной блокировки.</p></details>
+</div></div>
+<div class="warn" style="margin-top:24px"><b>Безопасность:</b> сотрудники банка никогда не запрашивают CVV-код, пароли и коды из SMS. Не сообщайте их никому.</div>
+</div></section>
+
+<footer id="contacts"><div class="wrap">
+<div class="grid">
+<div><h4>Нурбанк</h4><p>г. Алматы, пр. Абая, 10 «В»<br>cc_nur@nurbank.kz</p></div>
+<div><h4>Клиентам</h4><a href="#products">Продукты</a><a href="#transfers">Переводы</a><a href="#calc">Калькуляторы</a></div>
+<div><h4>Интернет-банкинг</h4><a href="https://online.nurbank24.kz/" target="_blank" rel="noopener">Для физлиц</a><a href="https://nurbank-online.kz/ru/html/login.html" target="_blank" rel="noopener">Для бизнеса</a><a href="https://nurbank.kz" target="_blank" rel="noopener">nurbank.kz</a></div>
+<div><h4>Круглосуточно</h4><a href="tel:2552">2552 (бесплатно)</a><a href="tel:+77272444444">+7 (727) 244-44-44</a><a href="https://wa.me/77070002552">WhatsApp +7 707 000 25 52</a></div>
+</div>
+<div class="legal">© АО «Нурбанк». Концептуальный редизайн. Не является официальным сайтом банка.</div>
+</div></footer>
+
+<script>
+const $=id=>document.getElementById(id),f=n=>Math.round(n).toLocaleString('ru-RU').replace(/,/g,' ');
+const cfg={
+dep:{l:'Сумма вклада',a:[5000,50000000,100000,1000000],m:[1,12,1,6],r:[10,18.4,.1,14.9]},
+loan:{l:'Сумма кредита',a:[500000,70000000,100000,10000000],m:[6,120,1,60],r:[23.5,29,.1,26.5]}};
+let mode='dep';
+function setup(){const c=cfg[mode];$('l1').textContent=c.l;
+[['r1','a'],['r2','m'],['r3','r']].forEach(([id,k])=>{const e=$(id);e.min=c[k][0];e.max=c[k][1];e.step=c[k][2];e.value=c[k][3]});
+$('o1').textContent=mode=='dep'?'Доход за период':'Ежемесячный платёж';
+$('o2').textContent=mode=='dep'?'Итоговая сумма':'Переплата';
+$('o3').textContent=mode=='dep'?'Эффективная ставка':'Общая сумма выплат';calc()}
+function calc(){const a=+$('r1').value,m=+$('r2').value,r=+$('r3').value;
+$('v1').textContent=f(a)+' ₸';$('v2').textContent=m;$('v3').textContent=r.toFixed(1)+'%';
+if(mode=='dep'){const i=r/1200,t=a*Math.pow(1+i,m);
+$('o1v').textContent='+'+f(t-a)+' ₸';$('o2v').textContent=f(t)+' ₸';
+$('o3v').textContent=((Math.pow(1+i,12)-1)*100).toFixed(2)+'%'}
+else{const i=r/1200,p=a*i/(1-Math.pow(1+i,-m));
+$('o1v').textContent=f(p)+' ₸';$('o2v').textContent=f(p*m-a)+' ₸';$('o3v').textContent=f(p*m)+' ₸'}}
+['r1','r2','r3'].forEach(id=>$(id).addEventListener('input',calc));
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');mode=b.dataset.t;setup()});
+$('burger').onclick=()=>$('nav').classList.toggle('open');
+$('nav').onclick=()=>$('nav').classList.remove('open');
+$('theme').onclick=()=>{const d=document.documentElement,dark=getComputedStyle(d).getPropertyValue('--bg').trim()=='#0a1220';d.dataset.theme=dark?'light':'dark'};
+setup();
+(()=>{
+const rm=matchMedia('(prefers-reduced-motion:reduce)').matches,hov=matchMedia('(hover:hover)').matches;
+const pb=document.createElement('div');pb.className='pbar';document.body.prepend(pb);
+const hd=document.querySelector('header');
+addEventListener('scroll',()=>{const h=document.documentElement;pb.style.transform='scaleX('+(scrollY/((h.scrollHeight-innerHeight)||1))+')';hd.classList.toggle('sc',scrollY>8)},{passive:true});
+if(rm)return;
+// ripple
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('.btn,.tab,.ic');if(!b)return;
+const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)*2.2,p=document.createElement('span');p.className='rip';
+p.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(e.clientX-r.left-s/2)+'px;top:'+(e.clientY-r.top-s/2)+'px';
+b.appendChild(p);setTimeout(()=>p.remove(),700)});
+// 3D tilt
+if(hov)document.querySelectorAll('.grid .card,.stats').forEach(c=>{c.classList.add('tilt');
+c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+c.style.setProperty('--ry',((x-.5)*14).toFixed(1)+'deg');c.style.setProperty('--rx',((.5-y)*14).toFixed(1)+'deg');
+c.style.setProperty('--mx',(x*100)+'%');c.style.setProperty('--my',(y*100)+'%')});
+c.addEventListener('pointerleave',()=>{c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')})});
+// hero glow follows cursor
+const hero=document.querySelector('.hero');
+hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();hero.style.setProperty('--gx',(e.clientX-r.left)+'px');hero.style.setProperty('--gy',(e.clientY-r.top)+'px')});
+// scroll reveal (staggered)
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.head,.hero .wrap>div:first-child>*,.grid>.card,.calc,.tabs,.faq details,.warn,footer .grid>div').forEach(el=>{
+el.classList.add('rv');const i=[...el.parentElement.children].indexOf(el);el.style.setProperty('--d',Math.min(i,6)*90+'ms');io.observe(el)});
+// count-up
+document.querySelectorAll('.stats b').forEach(b=>{const m=b.textContent.match(/\d+/);if(!m)return;const n=+m[0],t=b.textContent;
+new IntersectionObserver((es,o)=>{if(!es[0].isIntersecting)return;o.disconnect();const s=performance.now();
+(function k(now){const p=Math.min((now-s)/1500,1);b.textContent=t.replace(m[0],Math.round(n*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(k)})(s)}).observe(b)});
+// calculator "pop"
+const big=$('o1v'),pop=()=>{big.classList.remove('pop');void big.offsetWidth;big.classList.add('pop')};
+['r1','r2','r3'].forEach(id=>$(id).addEventListener('input',pop));
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',pop));
+})();
+</script>
+</body>
+</html>
